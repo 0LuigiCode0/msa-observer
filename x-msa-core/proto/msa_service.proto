@@ -1,0 +1,35 @@
+syntax = "proto3";
+package msa_service;
+option go_package = "grpc/msa_service";
+
+message RequestCall {
+   bytes Data = 1;
+   string FuncName = 2;
+   map<string, string> Option = 3;
+}
+
+message RequestAddService {
+   string Host = 1;
+   int32 Port = 2;
+   string GroupType = 3;
+   string Key = 4;
+}
+
+message RequestDelService {
+   string GroupType = 1;
+   string Key = 2;
+}
+
+message ResponseCall {
+   bytes Result = 2;
+}
+
+message Response {
+   bool Success = 1;
+}
+
+service Service {
+   rpc Call (RequestCall) returns (ResponseCall);
+   rpc AddService (RequestAddService) returns (Response);
+   rpc DeleteService (RequestDelService) returns (Response);
+}

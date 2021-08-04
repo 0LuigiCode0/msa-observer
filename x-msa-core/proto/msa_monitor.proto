@@ -1,0 +1,38 @@
+syntax = "proto3";
+package msa_monitor;
+option go_package = "grpc/msa_monitor";
+
+import "proto/msa_utils.proto";
+
+message RequestAddService {
+   string Repo = 1;
+   string GroupType = 2;
+   string Key = 3;
+}
+
+message RequestDelService {
+   string GroupType = 1;
+   string Key = 2;
+}
+
+message RequestRebuildService {
+   string GroupType = 1;
+   string Key = 2;
+}
+
+message RequestSetService {
+   string GroupType = 1;
+   string Key = 2;
+   msa_utils.Commands Command = 3;
+}
+
+message Response {
+   bool Success = 1;
+}
+
+service Monitor {
+   rpc AddService (RequestAddService) returns (Response);
+   rpc DeleteService (RequestDelService) returns (Response);
+   rpc RebuildService (RequestRebuildService) returns (Response);
+   rpc SetService (RequestSetService) returns (Response);
+}

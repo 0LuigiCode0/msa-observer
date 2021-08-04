@@ -1,0 +1,32 @@
+version: "3"
+
+services: 
+   mongo:
+      container_name: mongo
+      image: mongo
+      restart: always
+      environment:
+         MONGO_INITDB_DATABASE:
+      volumes:
+         - ./source/db:/data/db
+         - ./source/dbres:/data/res
+      networks:
+         - net
+      command: mongod --auth 
+      
+   server:
+      container_name: test
+      image: localhost:5000/test:latest
+      restart: always
+      expose: 8090
+      networks:
+         - net 
+      depends_on: 
+         - mongo
+      volumes:
+         - ./source/uploads:/server/source/uploads
+         - ./source/configs:/server/source/configs
+
+networks:
+   net:
+      driver: bridge
